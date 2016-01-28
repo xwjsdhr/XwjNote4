@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_truncate"
+        android:title="@string/text_delete_current"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/title_save"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+</menu>

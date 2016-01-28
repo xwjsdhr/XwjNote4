@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_selector">
+
+    <TextView
+        android:id="@+id/tv_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chk_item_favorite"
+        android:layout_marginStart="4dp"
+        android:paddingStart="8dp"
+        android:text="标题"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_item_content"
+        style="@style/tv_item_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_item_title"
+        android:text="content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_item_toggle_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/tv_item_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="5dp"
+        android:drawableEnd="@drawable/ic_arrow_drop_down_18dp"
+        android:paddingBottom="10dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="3dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp" />
+
+    <CheckBox
+        android:id="@+id/chk_item_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/check_note_selector"
+        android:button="@null"
+        android:gravity="top" />
+
+    <TextView
+        android:id="@+id/tv_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        android:text="日期" />
+
+</RelativeLayout>

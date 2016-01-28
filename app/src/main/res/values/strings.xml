@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">XwjNote4</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_home">首页</string>
+    <string name="text_favorite">收藏</string>
+    <string name="text_trash">回收站</string>
+    <string name="text_title">标题</string>
+    <string name="text_content">内容</string>
+    <string name="app_name_detail">便签</string>
+    <string name="title_dialog">当前便签将会被撤销</string>
+    <string name="text_delete">彻底删除</string>
+    <string name="text_move_to_trash_bin">移入回收站</string>
+    <string name="text_share">分享</string>
+    <string name="text_empty">无任何便签</string>
+    <string name="text_favorite_empty">无任何收藏的便签</string>
+    <string name="text_trash_empty">回收站无任何便签</string>
+    <string name="action_search">搜索</string>
+    <string name="app_label">搜索</string>
+    <string name="search_hint">搜索便签</string>
+    <string name="text_create_time">创建时间：</string>
+    <string name="text_update_time">更新时间：</string>
+    <string name="text_restore">恢复</string>
+    <string name="please_login">未登录</string>
+    <string name="text_btn_login_ok">登 陆</string>
+    <string name="text_btn_login_cancel">取 消</string>
+    <string name="text_security">保险箱</string>
+    <string name="text_move_to_security">移入保险箱</string>
+    <string name="text_password">密码：</string>
+    <string name="hint_password">请输入密码</string>
+    <string name="toggle_content">显示全部</string>
+    <string name="text_show_content">显示内容</string>
+    <string name="text_hide_content">隐藏内容</string>
+    <string name="activity_login">用户登录</string>
+    <string name="hint_username">请输入用户名</string>
+    <string name="title_reg">注册</string>
+    <string name="activity_register">注册</string>
+    <string name="hint_password2">请输入确认密码</string>
+    <string name="text_btn_reg_ok">注 册</string>
+    <string name="text_delete_current">删除当前便签</string>
+    <string name="text_about">关于</string>
+    <string name="text_setting">设置</string>
+    <string name="label_about">关于</string>
+    <string name="text_link">项目源地址</string>
+    <string name="label_setting">设置</string>
+    <string name="show_more_content">是否可以显示全部内容</string>
+    <string name="val_linear_layout">linear_layout</string>
+    <string name="text_layout">切换布局</string>
+    <string name="pref_title_layout">选择布局方式</string>
+    <string name="key_recyclerview_layout">key_recyclerview_layout</string>
+
+    <string name="linear">linear</string>
+    <string name="grid">网格布局</string>
+    <string name="staggerGrid">瀑布流布局</string>
+    <string name="title_save">保存</string>
+    <string name="text_total_num">总字数(0)</string>
+    <string name="text_restore_local">备份到本地</string>
+    <string name="title_dialog_local">备份</string>
+    <string name="content_dialog_local">正在备份</string>
+    <string name="text_recover">恢复</string>
+    <string name="text_show_more">显示更多</string>
+    <string name="text_btn_delete">删除</string>
+    <string name="text_exit">退出</string>
+    <string name="text_btn_share">分享</string>
+    <string name="text_btn_favo">收藏</string>
+    <string name="text_btn_unfavo">取消收藏</string>
+    <string name="text_btn_trash">回收站</string>
+    <string-array name="key_layouts">
+        <item>linear</item>
+        <item>grid</item>
+        <item>StaggeredGrid</item>
+    </string-array>
+
+    <string-array name="val_layouts">
+        <item>线性布局</item>
+        <item>网格布局</item>
+        <item>瀑布流布局</item>
+    </string-array>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bc_color">#eaeaea</color>
+    <!--ffe79b  ded8d8-->
+    <color name="UnpPressed">#ffffff</color>
+    <color name="Pressed">#eaeaea</color>
+    <color name="colorAlertDark">#c11b1b</color>
+    <color name="colorAlert">#e53935</color>
+    <color name="BtnAboutUnPressed">#304ffe</color>
+    <color name="BtnAboutPressed">#4975ef</color>
+    <color name="text_color">#ffffff</color>
+    <color name="text_color_item">#020202</color>
+    <color name="StorePress">#d3d3d3</color>
+    <color name="StoreUnPress">#eeeeee</color>
+
+    <color name="btnDeleteUnPress">#ff0a39</color>
+    <color name="btnDeletePress">#b71c1c</color>
+
+    <color name="textDeleteUnPress">#fff</color>
+    <color name="textDeletePress">#ffffff</color>
+
+    <color name="btnShareUnPress">#448aff</color>
+    <color name="btnSharePress">#1565c0</color>
+
+    <color name="btnFavoUnPress">#fafafa</color>
+    <color name="btnFavoPress">#dedede</color>
+    <color name="divider_color">#eaeaea</color>
+</resources>

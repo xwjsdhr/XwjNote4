@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/text_delete" />
+    <item
+        android:id="@+id/action_trash"
+        android:title="@string/text_move_to_trash_bin" />
+    <item
+        android:id="@+id/action_favorite"
+        android:title="@string/text_favorite" />
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/text_share" />
+    <item
+        android:id="@+id/action_show_more"
+        android:title="@string/text_show_more" />
+</menu>

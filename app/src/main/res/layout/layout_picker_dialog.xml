@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/tv_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/linear" />
+
+        <RadioButton
+            android:id="@+id/tv_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/grid" />
+
+        <RadioButton
+            android:id="@+id/tv_stagger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/staggerGrid" />
+    </RadioGroup>
+</LinearLayout>
