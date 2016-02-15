@@ -1,6 +1,6 @@
 # XwjNote4
 便签
-1.使用MVP设计模式的便签app.
+1.使用MVP设计模式的便签app.  
 author:夏伟佳。  
 
 #第三方框架  
