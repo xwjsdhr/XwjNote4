@@ -52,42 +52,49 @@ public interface NoteDetailView {
 
     /**
      * 显示snackbar
+     *
      * @param msg
      */
     void showdSnackbar(String msg);
 
     /**
      * 获取当前title的字数
+     *
      * @return
      */
     int getTitleNum();
 
     /**
      * 获取内容字数
+     *
      * @return
      */
     int getContentNum();
 
     /**
      * 绑定标题字数
+     *
      * @param num
      */
     void setTitleNum(int num);
 
     /**
      * 绑定内容字数
+     *
      * @param num
      */
     void setContentNum(int num);
 
     /**
      * 获取总字数
+     *
      * @return
      */
     int getTotalNum();
 
     /**
      * 设置总字数
+     *
      * @param num
      */
     void setTotalNum(int num);
@@ -104,13 +111,17 @@ public interface NoteDetailView {
 
     /**
      * 判断当前标题和内容是否都不为空
+     *
      * @return
      */
     boolean isEditTextUnEmpty();
 
     /**
      * 获取intent中的Note
+     *
      * @return
      */
     Note detailGetIntent();
+
+    void backToHomeFragment();
 }

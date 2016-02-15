@@ -2,7 +2,6 @@ package com.xwj.xwjnote4.presenter.impl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.xwj.xwjnote4.Iterator.NoteIterator;
 import com.xwj.xwjnote4.Iterator.impl.NoteIteratorImpl;
@@ -12,9 +11,7 @@ import com.xwj.xwjnote4.model.impl.NoteModelImpl;
 import com.xwj.xwjnote4.presenter.NoteListPresenter;
 import com.xwj.xwjnote4.utils.NoteUtil;
 import com.xwj.xwjnote4.view.NoteListView;
-import com.xwj.xwjnote4.view.impl.HomeNoteFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.listener.FindListener;
@@ -39,9 +36,6 @@ public class NoteListPresenterImpl extends FindListener<Note> implements NoteLis
         mNoteIterator = new NoteIteratorImpl(context);
         mNoteModel = new NoteModelImpl(context);
         mEventBus = EventBus.getDefault();
-        if (!mEventBus.isRegistered(this)) {
-            mEventBus.register(this);
-        }
     }
 
     @Override
@@ -54,7 +48,6 @@ public class NoteListPresenterImpl extends FindListener<Note> implements NoteLis
 
     @Override
     public void searchNotesByTitle(String title) {
-        mNoteView.showProgress();
         mNoteIterator.searchNotes(title);
     }
 
@@ -85,19 +78,6 @@ public class NoteListPresenterImpl extends FindListener<Note> implements NoteLis
     public void onError(int i, String s) {
 
     }
-
-    public void onEventMainThread(ArrayList<Note> list) {
-        Log.e(TAG, Thread.currentThread().getName());
-        if (mNoteView.getClass().getName().equals(HomeNoteFragment.class.getName())) {
-            mNoteView.bindData(list);
-            mNoteView.hideProgress();
-            mNoteView.hideEmptyView("a");
-            if (mEventBus.isRegistered(this)) {
-                mEventBus.unregister(this);
-            }
-        }
-    }
-
 
     @Override
     public void configView(SharedPreferences sharedPreferences) {

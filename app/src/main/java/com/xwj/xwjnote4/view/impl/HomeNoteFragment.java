@@ -4,12 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -35,7 +39,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by xwjsd on 2016-01-05.
  */
-public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRefreshLayout.OnRefreshListener {
+public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     public static final String TAG = HomeNoteFragment.class.getSimpleName();
     private Context mContext;
@@ -47,6 +51,7 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
     private ArrayList<Note> mList = new ArrayList<>();
     private ProgressBar mProgressBar;
     private EventBus mEventBus;
+    private SearchView mSearchView;
 
     @Override
     public void onAttach(Context context) {
@@ -57,6 +62,7 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
         if (!mEventBus.isRegistered(this)) {
             mEventBus.register(this);
         }
+
     }
 
     @Override
@@ -66,6 +72,13 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home);
         mTvEmpty = (TextView) view.findViewById(R.id.tv_home_empty);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_home);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name_detail);
+        toolbar.inflateMenu(R.menu.menu_main);
+        Menu menu = toolbar.getMenu();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setOnQueryTextListener(this);
         mRvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -87,6 +100,7 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -105,7 +119,6 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
      */
     @Override
     public void bindData(ArrayList<Note> list) {
-        Log.e(TAG, list.size() + "");
         mList.clear();
         mList.addAll(list);
         mAdapter.notifyDataSetChanged();
@@ -164,26 +177,32 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mEventBus.isRegistered(this)) {
-            mEventBus.unregister(this);
-        }
-    }
-
     public void onEvent(TextMsg msg) {
         mNotePresenter.searchNotesByTitle(msg.getQueryText());
     }
 
     public void onEvent(Note note) {
-        Log.e(TAG, "ONEVENT ADD");
-        Log.e(TAG, note.toString());
         mNotePresenter.addNote(note);
-
     }
 
     public void onEvent(UpdateNote note) {
         mNotePresenter.updateNote(note.getNote());
     }
+
+    public void onEventMainThread(ArrayList<Note> list) {
+        this.bindData(list);
+        this.hideProgress();
+        this.hideEmptyView("a");
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        mNotePresenter.searchNotesByTitle(newText);
+        return true;
+    }
+
 }

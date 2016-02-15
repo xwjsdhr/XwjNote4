@@ -35,8 +35,6 @@ public class NoteIteratorImpl implements NoteIterator {
         mNoteModel = new NoteModelImpl(context);
         mEventBus = EventBus.getDefault();
     }
-
-
     @Override
     public void getNotes(final String type) {
 
@@ -67,7 +65,7 @@ public class NoteIteratorImpl implements NoteIterator {
             public void run() {
                 if (!TextUtils.isEmpty(title)) {
                     ArrayList<Note> list = mNoteModel.getNotesByTitle(title, false);
-                    mEventBus.post(list);
+                    mEventBus.postSticky(list);
                 } else {
                     ArrayList<Note> notes = mNoteModel.getAllNotes();
                     mEventBus.post(notes);

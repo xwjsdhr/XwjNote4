@@ -37,6 +37,7 @@ public class FavoriteNoteFragment extends Fragment implements NoteListView {
     private NoteListPresenter mNotePresenter;
     private TextView mTvEmpty;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ArrayList<Note> mList = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -58,6 +59,8 @@ public class FavoriteNoteFragment extends Fragment implements NoteListView {
             mRvHome.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         }
         mRvHome.setHasFixedSize(true);
+        mAdapter = new NoteAdapter(mContext, mList, mSwipeRefreshLayout);
+        mRvHome.setAdapter(mAdapter);
         mNotePresenter.getNotesByType("");
     }
 
@@ -70,10 +73,8 @@ public class FavoriteNoteFragment extends Fragment implements NoteListView {
 
     @Override
     public void bindData(ArrayList<Note> list) {
-        if (mAdapter == null) {
-            mAdapter = new NoteAdapter(mContext, list, mSwipeRefreshLayout);
-        }
-        mRvHome.setAdapter(mAdapter);
+        mList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

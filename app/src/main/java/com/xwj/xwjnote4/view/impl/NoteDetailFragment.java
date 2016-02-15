@@ -4,9 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -17,13 +24,15 @@ import com.xwj.xwjnote4.model.Note;
 import com.xwj.xwjnote4.presenter.NotePresenter;
 import com.xwj.xwjnote4.presenter.impl.NotePresenterImpl;
 import com.xwj.xwjnote4.utils.CommonUtils;
+import com.xwj.xwjnote4.utils.ConstantUtils;
 import com.xwj.xwjnote4.view.NoteDetailView;
 
 /**
  * Created by xwjsd on 2016-01-22.
  */
-public class NoteDetailFragment extends Fragment implements NoteDetailView {
+public class NoteDetailFragment extends Fragment implements NoteDetailView, View.OnClickListener {
 
+    private static final String TAG = NoteDetailFragment.class.getSimpleName();
     private EditText mEtTitle;
     private EditText mEtContent;
     private Toolbar mToolbar;
@@ -35,20 +44,25 @@ public class NoteDetailFragment extends Fragment implements NoteDetailView {
     private TextView mTvContent;
     private TextView mTvTotal;
     private Context mContext;
+    private FragmentManager mManager;
+    private MenuItem mSaveItem;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
         mNotePresenter = new NotePresenterImpl(context, this);
+        mManager = getActivity().getSupportFragmentManager();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_note_detail, container, false);
+        View v;
+        v = inflater.inflate(R.layout.fragment_note_detail, container, false);
+        setHasOptionsMenu(true);
+        return v;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -60,13 +74,70 @@ public class NoteDetailFragment extends Fragment implements NoteDetailView {
         mTvCreateTime = (TextView) view.findViewById(R.id.tv_detail_create_time);
         mTvUpdateTime = (TextView) view.findViewById(R.id.tv_detail_update_time);
         mTvTotal = (TextView) view.findViewById(R.id.tv_detail_total);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbar.inflateMenu(R.menu.menu_detail);
+        Menu menu = mToolbar.getMenu();
+        mSaveItem = menu.findItem(R.id.action_save);
+        mToolbar.setNavigationOnClickListener(this);
+        mEtContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (isEditTextUnEmpty()) {
+//                    showFinishBtn();
+//                } else {
+//                    hideFinishBtn();
+//                }
+                setContentNum(s.length());
+                setTotalNum(getTotalNum());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mEtTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (isEditTextUnEmpty()) {
+//                    showFinishBtn();
+//                } else {
+//                    hideFinishBtn();
+//                }
+                setTitleNum(s.length());
+                setTotalNum(getTotalNum());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mNote = mNotePresenter.getNoteByIntent();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mNotePresenter.getNoteByIntent();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_detail, menu);
+//        mSaveItem = menu.findItem(R.id.action_save);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_save) {
+            Log.e(TAG, "onOptionItemSelected");
+        }
+        return true;
     }
 
     @Override
@@ -153,16 +224,16 @@ public class NoteDetailFragment extends Fragment implements NoteDetailView {
 
     @Override
     public void showFinishBtn() {
-//        if (mSaveItem != null) {
-//            mSaveItem.setVisible(true);
-//        }
+        if (mSaveItem != null) {
+            mSaveItem.setVisible(true);
+        }
     }
 
     @Override
     public void hideFinishBtn() {
-//        if (mSaveItem != null) {
-//            mSaveItem.setVisible(false);
-//        }
+        if (mSaveItem != null) {
+            mSaveItem.setVisible(false);
+        }
     }
 
     @Override
@@ -178,10 +249,26 @@ public class NoteDetailFragment extends Fragment implements NoteDetailView {
 
     @Override
     public Note detailGetIntent() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mNote = (Note) bundle.getSerializable(ConstantUtils.NOTE_EXTRA);
+        }
         return mNote;
     }
 
-    public void onEvent(Note note) {
-        mNote = note;
+    @Override
+    public void backToHomeFragment() {
+        mManager.beginTransaction()
+                .setCustomAnimations(R.anim.scale_in, R.anim.scale_out)
+                .replace(R.id.container_main, new HomeNoteFragment(), HomeNoteFragment.class.getSimpleName())
+                .remove(this)
+                .commit();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.e(TAG, "onClick");
+        mNotePresenter.handleClick(v);
     }
 }

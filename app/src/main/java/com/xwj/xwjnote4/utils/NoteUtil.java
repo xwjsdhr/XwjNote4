@@ -105,7 +105,7 @@ public class NoteUtil {
         );
         List<Note> list = sDao.queryBuilder()
                 .where(condition)
-                .orderDesc(NoteDao.Properties.LastModifiedTime).list();
+                .orderDesc(NoteDao.Properties.CreateTime).list();
         arrayList.addAll(list);
         return arrayList;
 

@@ -11,7 +11,6 @@ import com.xwj.xwjnote4.presenter.MainPresenter;
 import com.xwj.xwjnote4.view.MainView;
 import com.xwj.xwjnote4.view.impl.AboutActivity;
 import com.xwj.xwjnote4.view.impl.LoginActivity;
-import com.xwj.xwjnote4.view.impl.NoteDetailActivity;
 import com.xwj.xwjnote4.view.impl.SettingActivity;
 
 /**
@@ -75,8 +74,9 @@ public class MainPresenterImpl implements MainPresenter {
                 mMainView.mainStartActivity(intent);
                 break;
             case R.id.fab:
-                intent = new Intent(mContext, NoteDetailActivity.class);
-                mMainView.mainStartActivity(intent);
+//                intent = new Intent(mContext, NoteDetailActivity.class);
+//                mMainView.mainStartActivity(intent);
+                mMainView.toAddFragment();
                 break;
         }
     }

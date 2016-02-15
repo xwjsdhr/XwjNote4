@@ -92,5 +92,10 @@ public interface MainView {
 
     void setToolbarTitle(int count);
 
+    void toAddFragment();
+
+    void disableDrawer();
+
+    void enableDrawer();
 
 }

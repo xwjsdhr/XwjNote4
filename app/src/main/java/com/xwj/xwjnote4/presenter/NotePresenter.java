@@ -1,5 +1,7 @@
 package com.xwj.xwjnote4.presenter;
 
+import android.view.View;
+
 import com.xwj.xwjnote4.model.Note;
 
 /**
@@ -24,4 +26,5 @@ public interface NotePresenter extends BasePresenter {
     void registerBus();
 
     void unRegisterBus();
+    void handleClick(View view);
 }

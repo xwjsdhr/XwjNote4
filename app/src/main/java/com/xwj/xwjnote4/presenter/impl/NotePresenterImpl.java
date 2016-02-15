@@ -3,6 +3,8 @@ package com.xwj.xwjnote4.presenter.impl;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 
 import com.xwj.xwjnote4.R;
 import com.xwj.xwjnote4.model.Note;
@@ -13,6 +15,7 @@ import com.xwj.xwjnote4.presenter.NotePresenter;
 import com.xwj.xwjnote4.utils.CommonUtils;
 import com.xwj.xwjnote4.utils.ConstantUtils;
 import com.xwj.xwjnote4.utils.NoteUtil;
+import com.xwj.xwjnote4.view.MainView;
 import com.xwj.xwjnote4.view.NoteDetailView;
 
 import java.util.Date;
@@ -24,14 +27,17 @@ import de.greenrobot.event.EventBus;
  * Created by xwjsd on 2016-01-05.
  */
 public class NotePresenterImpl implements NotePresenter {
+    private static final String TAG = NotePresenterImpl.class.getSimpleName();
     private NoteDetailView mNoteDetailView;
     private Note mNote;
     private NoteModel mNoteModel;
     private EventBus mEventBus;
+    MainView mMainView;
 
     public NotePresenterImpl(Context context, NoteDetailView noteDetailView) {
         mNoteDetailView = noteDetailView;
         mNoteModel = new NoteModelImpl(context);
+        mMainView = (MainView) context;
         mEventBus = EventBus.getDefault();
     }
 
@@ -42,7 +48,8 @@ public class NotePresenterImpl implements NotePresenter {
     public void saveNote() {
         if (mNoteDetailView.isEditTextUnFocused() || TextUtils.isEmpty(mNoteDetailView.getNoteTitle()) ||
                 TextUtils.isEmpty(mNoteDetailView.getNoteContent())) {
-            mNoteDetailView.finishActivity();
+            //mNoteDetailView.finishActivity();
+            mNoteDetailView.backToHomeFragment();
         } else {
             String title = mNoteDetailView.getNoteTitle();
             String content = mNoteDetailView.getNoteContent();
@@ -55,6 +62,7 @@ public class NotePresenterImpl implements NotePresenter {
                 UpdateNote updateNote = new UpdateNote();
                 updateNote.setNote(mNote);
                 mEventBus.post(updateNote);
+                Log.e(TAG, "ADD NEW");
             } else {
                 mNote = new Note();
                 mNote.setTitle(title);
@@ -68,10 +76,12 @@ public class NotePresenterImpl implements NotePresenter {
                 mNote.setHasSync(false);
                 mNote.setFavorite(false);
                 mEventBus.post(mNote);
+                Log.e(TAG, "ADD NEW");
             }
-            mNoteDetailView.finishActivity();
+            mNoteDetailView.backToHomeFragment();
         }
-
+        mMainView.showFloatButton();
+        //mMainView.enableDrawer();
     }
 
     /**
@@ -126,7 +136,8 @@ public class NotePresenterImpl implements NotePresenter {
                     mNote.setFavorite(false);
                     mEventBus.post(mNote);
                 }
-                mNoteDetailView.finishActivity();
+                mNoteDetailView.backToHomeFragment();
+
                 break;
         }
     }
@@ -158,7 +169,12 @@ public class NotePresenterImpl implements NotePresenter {
     }
 
     @Override
+    public void handleClick(View view) {
+        this.saveNote();
+    }
+
+    @Override
     public void configView(SharedPreferences sharedPreferences) {
-        
+
     }
 }

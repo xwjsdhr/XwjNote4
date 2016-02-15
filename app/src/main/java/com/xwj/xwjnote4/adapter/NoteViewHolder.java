@@ -2,6 +2,8 @@ package com.xwj.xwjnote4.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,10 +23,13 @@ import com.xwj.xwjnote4.model.Note;
 import com.xwj.xwjnote4.presenter.ItemPresenter;
 import com.xwj.xwjnote4.presenter.impl.ItemPresenterImpl;
 import com.xwj.xwjnote4.utils.CommonUtils;
+import com.xwj.xwjnote4.utils.ConstantUtils;
 import com.xwj.xwjnote4.utils.NoteUtil;
 import com.xwj.xwjnote4.utils.PreferenceUtils;
 import com.xwj.xwjnote4.view.ItemView;
+import com.xwj.xwjnote4.view.impl.HomeNoteFragment;
 import com.xwj.xwjnote4.view.impl.MainActivity;
+import com.xwj.xwjnote4.view.impl.NoteDetailFragment;
 
 import java.util.ArrayList;
 
@@ -67,6 +72,7 @@ class NoteViewHolder extends RecyclerView.ViewHolder implements ItemView, View.O
     private NoteAdapter mAdapter;
     private Note mNote;
     MainActivity mainActivity;
+    private FragmentManager mManager;
 
 
     public NoteViewHolder(View itemView, Context context, ArrayList<Note> list, NoteAdapter adapter,
@@ -76,6 +82,7 @@ class NoteViewHolder extends RecyclerView.ViewHolder implements ItemView, View.O
         initView(itemView, context, list, adapter, swipeRefreshLayout);
         configView();
         registerListener(itemView);
+        mManager = mainActivity.getSupportFragmentManager();
     }
 
     private void initView(View itemView, Context context, ArrayList<Note> list,
@@ -244,6 +251,21 @@ class NoteViewHolder extends RecyclerView.ViewHolder implements ItemView, View.O
     @Override
     public void showShowMore() {
 
+    }
+
+    @Override
+    public void toDetailFragment(Note note) {
+        NoteDetailFragment noteDetailFragment = new NoteDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ConstantUtils.NOTE_EXTRA, note);
+        noteDetailFragment.setArguments(bundle);
+        mManager.beginTransaction()
+                .setCustomAnimations(R.anim.scale_in, R.anim.scale_out)
+                .replace(R.id.container_main, noteDetailFragment, NoteDetailFragment.class.getSimpleName())
+                .remove(mManager.findFragmentByTag(HomeNoteFragment.class.getSimpleName()))
+                .commit();
+        mainActivity.hideFloatButton();
+        mainActivity.disableDrawer();
     }
 
     @Override

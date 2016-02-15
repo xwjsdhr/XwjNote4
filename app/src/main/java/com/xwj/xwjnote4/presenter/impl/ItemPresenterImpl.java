@@ -2,7 +2,6 @@ package com.xwj.xwjnote4.presenter.impl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +19,6 @@ import com.xwj.xwjnote4.utils.NoteUtil;
 import com.xwj.xwjnote4.utils.PreferenceUtils;
 import com.xwj.xwjnote4.view.ItemView;
 import com.xwj.xwjnote4.view.MainView;
-import com.xwj.xwjnote4.view.impl.MainActivity;
-import com.xwj.xwjnote4.view.impl.NoteDetailFragment;
 
 import de.greenrobot.event.EventBus;
 
@@ -36,17 +33,12 @@ public class ItemPresenterImpl implements ItemPresenter {
     private Context mContext;
     private NoteModel mNoteModel;
     private EventBus mEventBus;
-    private FragmentManager mManager;
-    private MainView mMainView;
-
 
     public ItemPresenterImpl(Context context, ItemView itemView, MainView mainView) {
         mItemView = itemView;
         mContext = context;
         mNoteModel = new NoteModelImpl(context);
         mEventBus = EventBus.getDefault();
-        mManager = ((MainActivity) context).getSupportFragmentManager();
-        this.mMainView = mainView;
     }
 
     @Override
@@ -141,10 +133,7 @@ public class ItemPresenterImpl implements ItemPresenter {
 //                Intent intent = new Intent(mContext, NoteDetailActivity.class);
 //                intent.putExtra(ConstantUtils.NOTE_EXTRA, mItemView.getNote());
 //                mItemView.itemStartActivity(intent);
-                mManager.beginTransaction()
-                        .add(R.id.container_main, new NoteDetailFragment(), NoteDetailFragment.class.getSimpleName())
-                        .addToBackStack(null)
-                        .commit();
+                mItemView.toDetailFragment(mItemView.getNote());
             }
         }
     }

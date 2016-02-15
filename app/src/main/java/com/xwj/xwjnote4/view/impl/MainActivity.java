@@ -8,14 +8,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,7 +25,6 @@ import com.xwj.xwjnote4.presenter.MainPresenter;
 import com.xwj.xwjnote4.presenter.impl.MainPresenterImpl;
 import com.xwj.xwjnote4.receiver.ScreenReceiver;
 import com.xwj.xwjnote4.view.MainView;
-import com.xwj.xwjnote4.widget.MyActionBarDrawerToggle;
 
 import cn.bmob.v3.Bmob;
 import de.greenrobot.event.EventBus;
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MainView, View.OnClickListener, SearchView.OnQueryTextListener, View.OnFocusChangeListener, SearchView.OnCloseListener {
 
     private FragmentManager mManager;
-    public Toolbar mToolbar;
+    //public Toolbar mToolbar;
     public NavigationView mNavigationView;
     private MainPresenter mMainPresenter;
     public FloatingActionButton mFab;
@@ -52,11 +47,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public View mHeaderView;
 
 
-    public ActionBarDrawerToggle mActionBarDrawerToggle;
+    // public ActionBarDrawerToggle mActionBarDrawerToggle;
     public ScreenReceiver mScreenReceiver;
-    public SearchView mSearchView;
+    //public SearchView mSearchView;
     private String TAG = MainActivity.class.getSimpleName();
-    private HomeNoteFragment mHomeFragment;
     private FavoriteNoteFragment mFavoriteNoteFragment;
     private TrashNoteFragment mTrashFragment;
     private EventBus mEventBus;
@@ -70,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initView();
         setListener();
         mMainPresenter = new MainPresenterImpl(this, this);
-        mHomeFragment = new HomeNoteFragment();
         mEventBus = EventBus.getDefault();
         if (!mEventBus.isRegistered(this)) {
             mEventBus.register(this);
@@ -88,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * 初始化视图。
      */
     private void initView() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(mToolbar);
         mManager = this.getSupportFragmentManager();
         mNavigationView = (NavigationView) this.findViewById(R.id.nv_drawer);
         mHeaderView = mNavigationView.inflateHeaderView(R.layout.header_layout);
@@ -97,27 +90,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = (DrawerLayout) this.findViewById(R.id.dl_main);
         mIvIcon = (ImageView) mHeaderView.findViewById(R.id.iv_user_icon);
         mTvUserName = (TextView) mHeaderView.findViewById(R.id.tv_user_username);
-        mActionBarDrawerToggle = new MyActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
+        //mActionBarDrawerToggle = new MyActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         mFavoriteNoteFragment = new FavoriteNoteFragment();
         mTrashFragment = new TrashNoteFragment();
         mScreenReceiver = new ScreenReceiver();
+        mDrawerLayout.setEnabled(false);
+
     }
 
     /**
      * 设置监听器。
      */
     private void setListener() {
-        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+        // mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
         mFab.setOnClickListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
         mIvIcon.setOnClickListener(this);
+        mManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+            }
+        });
     }
 
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        mActionBarDrawerToggle.syncState();
-        super.onPostCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onPostCreate(Bundle savedInstanceState) {
+//        mActionBarDrawerToggle.syncState();
+//        super.onPostCreate(savedInstanceState);
+//    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -127,11 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void toHomeFragment() {
-        if (mHomeFragment != null) {
-            mManager.beginTransaction()
-                    .replace(R.id.container_main, mHomeFragment, HomeNoteFragment.TAG)
-                    .commit();
-        }
+        mManager.beginTransaction()
+                .setCustomAnimations(R.anim.scale_in, R.anim.scale_out)
+                .replace(R.id.container_main, new HomeNoteFragment(), HomeNoteFragment.class.getSimpleName())
+                .commit();
     }
 
     @Override
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setToolbarTitle(String title) {
-        mToolbar.setTitle(title);
+//        mToolbar.setTitle(title);
     }
 
     @Override
@@ -229,8 +228,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setToolbarTitle(int count) {
-        mToolbar.setTitle(String.format("便签(%d)", count));
-        Log.e(TAG, "SET TOOLBAR TITLE");
+//        mToolbar.setTitle(String.format("便签(%d)", count));
+    }
+
+    @Override
+    public void toAddFragment() {
+        mManager.beginTransaction()
+                .setCustomAnimations(R.anim.scale_in, R.anim.scale_out)
+                .replace(R.id.container_main, new NoteDetailFragment(), NoteDetailFragment.class.getSimpleName())
+                .remove(mManager.findFragmentByTag(HomeNoteFragment.class.getSimpleName()))
+                .commit();
+        hideFloatButton();
+        disableDrawer();
+    }
+
+    @Override
+    public void disableDrawer() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @Override
+    public void enableDrawer() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
     }
 
     @Override
@@ -247,22 +266,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         unregisterReceiver(mScreenReceiver);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setOnQueryTextListener(this);
-        mSearchView.setOnQueryTextFocusChangeListener(this);
-        mSearchView.setOnCloseListener(this);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        MenuItem searchItem = menu.findItem(R.id.action_search);
+//        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        mSearchView.setOnQueryTextListener(this);
+//        mSearchView.setOnQueryTextFocusChangeListener(this);
+//        mSearchView.setOnCloseListener(this);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        mMainPresenter.handleSelectMenuItem(item.getItemId());
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        mMainPresenter.handleSelectMenuItem(item.getItemId());
+//        return false;
+//    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -293,7 +312,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        this.finish();
+        Log.e(TAG, "ON BACK PRESS");
+        if (mManager.findFragmentByTag(HomeNoteFragment.class.getSimpleName()) != null) {
+            Log.e(TAG, "ON BACK PRESS1");
+            this.finish();
+        } else if (mManager.findFragmentByTag(NoteDetailFragment.class.getSimpleName()) != null) {
+            toHomeFragment();
+            Log.e(TAG, "ON BACK PRESS2");
+            this.showFloatButton();
+        }
     }
 
     public void onEvent(Integer count) {

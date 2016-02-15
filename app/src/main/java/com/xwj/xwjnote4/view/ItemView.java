@@ -83,4 +83,6 @@ public interface ItemView {
 
     void showShowMore();
 
+
+    void toDetailFragment(Note note);
 }

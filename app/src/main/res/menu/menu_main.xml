@@ -9,6 +9,12 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
+        android:id="@+id/action_complete"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/title_save"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_about"
         android:title="@string/text_about" />
     <item

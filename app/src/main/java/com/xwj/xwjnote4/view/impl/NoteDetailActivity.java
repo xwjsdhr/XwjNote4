@@ -287,6 +287,11 @@ public class NoteDetailActivity extends AppCompatActivity implements NoteDetailV
     }
 
     @Override
+    public void backToHomeFragment() {
+
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.top_in, R.anim.bottom_out);
