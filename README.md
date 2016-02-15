@@ -12,6 +12,6 @@ author:夏伟佳。
 
 
 截图：  
-![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/main.png)
-![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/slide.png)
+![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/main.png)  
+![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/slide.png)  
 ![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/note.png)
