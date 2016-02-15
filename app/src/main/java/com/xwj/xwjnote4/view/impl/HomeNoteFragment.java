@@ -4,16 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -51,7 +47,7 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
     private ArrayList<Note> mList = new ArrayList<>();
     private ProgressBar mProgressBar;
     private EventBus mEventBus;
-    private SearchView mSearchView;
+    //private SearchView mSearchView;
 
     @Override
     public void onAttach(Context context) {
@@ -72,13 +68,13 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home);
         mTvEmpty = (TextView) view.findViewById(R.id.tv_home_empty);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_home);
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name_detail);
-        toolbar.inflateMenu(R.menu.menu_main);
-        Menu menu = toolbar.getMenu();
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setOnQueryTextListener(this);
+        //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        //toolbar.setTitle(R.string.app_name_detail);
+        //toolbar.inflateMenu(R.menu.menu_main);
+       // Menu menu = toolbar.getMenu();
+       // MenuItem searchItem = menu.findItem(R.id.action_search);
+        //mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //mSearchView.setOnQueryTextListener(this);
         mRvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

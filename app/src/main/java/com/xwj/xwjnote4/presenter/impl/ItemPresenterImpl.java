@@ -1,6 +1,7 @@
 package com.xwj.xwjnote4.presenter.impl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.xwj.xwjnote4.utils.NoteUtil;
 import com.xwj.xwjnote4.utils.PreferenceUtils;
 import com.xwj.xwjnote4.view.ItemView;
 import com.xwj.xwjnote4.view.MainView;
+import com.xwj.xwjnote4.view.impl.NoteDetailActivity;
 
 import de.greenrobot.event.EventBus;
 
@@ -130,10 +132,10 @@ public class ItemPresenterImpl implements ItemPresenter {
             if (mItemView.isSwiped()) {
                 mItemView.closeSwipeLayout();
             } else {
-//                Intent intent = new Intent(mContext, NoteDetailActivity.class);
-//                intent.putExtra(ConstantUtils.NOTE_EXTRA, mItemView.getNote());
-//                mItemView.itemStartActivity(intent);
-                mItemView.toDetailFragment(mItemView.getNote());
+                Intent intent = new Intent(mContext, NoteDetailActivity.class);
+                intent.putExtra(ConstantUtils.NOTE_EXTRA, mItemView.getNote());
+                mItemView.itemStartActivity(intent);
+//                mItemView.toDetailFragment(mItemView.getNote());
             }
         }
     }
