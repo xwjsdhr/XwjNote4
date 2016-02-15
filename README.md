@@ -4,11 +4,11 @@
 author:夏伟佳。  
 
 #第三方框架  
-1.GreenDao。  
-2.EventBus。  
-3.Bmob后端。  
-4.swipelayout  
-5.ButterKnife  
+1.GreenDao。（数据库）  
+2.EventBus。（数据传递）  
+3.Bmob后端。 （用户登录） 
+4.swipelayout  （侧滑菜单）
+5.ButterKnife  （依赖注入）
 
 
 截图：  
