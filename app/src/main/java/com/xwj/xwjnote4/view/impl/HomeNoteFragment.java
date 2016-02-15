@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,24 +29,31 @@ import com.xwj.xwjnote4.widget.MyItemDecoration;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by xwjsd on 2016-01-05.
  */
-public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = HomeNoteFragment.class.getSimpleName();
     private Context mContext;
+    @Bind(R.id.rc_home)
     private RecyclerView mRvHome;
+    @Bind(R.id.tv_home_empty)
+    private TextView mTvEmpty;
+    @Bind(R.id.sl_home)
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.pb_home)
+    private ProgressBar mProgressBar;
+
+
     private NoteAdapter mAdapter;
     private NoteListPresenter mNotePresenter;
-    private TextView mTvEmpty;
     private ArrayList<Note> mList = new ArrayList<>();
-    private ProgressBar mProgressBar;
     private EventBus mEventBus;
-    //private SearchView mSearchView;
 
     @Override
     public void onAttach(Context context) {
@@ -64,17 +70,7 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRvHome = (RecyclerView) view.findViewById(R.id.rc_home);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sl_home);
-        mTvEmpty = (TextView) view.findViewById(R.id.tv_home_empty);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_home);
-        //Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        //toolbar.setTitle(R.string.app_name_detail);
-        //toolbar.inflateMenu(R.menu.menu_main);
-       // Menu menu = toolbar.getMenu();
-       // MenuItem searchItem = menu.findItem(R.id.action_search);
-        //mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        //mSearchView.setOnQueryTextListener(this);
+        ButterKnife.bind(this, view);
         mRvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -169,6 +165,14 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mEventBus.isRegistered(this)) {
+            mEventBus.unregister(this);
+        }
+    }
+
+    @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
@@ -190,15 +194,4 @@ public class HomeNoteFragment extends Fragment implements NoteListView, SwipeRef
         this.hideProgress();
         this.hideEmptyView("a");
     }
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        mNotePresenter.searchNotesByTitle(newText);
-        return true;
-    }
-
 }
