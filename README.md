@@ -12,6 +12,9 @@ author:夏伟佳。
 
 
 截图：  
+1.主界面截图：  
 ![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/main.png)  
+2.侧滑菜单截图：  
 ![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/slide.png)  
+3.新便签界面截图：  
 ![image](https://github.com/xwjsdhr/XwjNote4/blob/master/screenshot/note.png)
