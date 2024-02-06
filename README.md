@@ -1,7 +1,6 @@
 # XwjNote4
 便签
-1.使用MVP设计模式的便签app.  
-author:夏伟佳。  
+1.使用MVP设计模式的便签app.   
 
 #第三方框架  
 1.GreenDao。（数据库）  
